@@ -1,0 +1,19 @@
+services:
+- buildCommand: pip install -r requirements.txt
+  env: python
+  envVars:
+  - key: TELEGRAM_BOT_TOKEN
+    sync: false
+  - key: TELEGRAM_ADMIN_ID
+    sync: false
+  - key: DATABASE_URL
+    value: sqlite:///affiliate_bot.db
+  - key: AMAZON_ASSOCIATE_TAG
+    sync: false
+  - key: EBAY_CAMPAIGN_ID
+    sync: false
+  healthCheckPath: /health
+  name: telegram-affiliate-bot
+  plan: free
+  startCommand: python integrated_bot.py
+  type: web

@@ -1,0 +1,25 @@
+
+# Add these imports to the top of integrated_bot.py
+import threading
+from flask import Flask
+import os
+
+# Add this function to integrated_bot.py
+def start_health_server():
+    """Start health check server for Render"""
+    app = Flask(__name__)
+    
+    @app.route('/health')
+    def health():
+        return {"status": "healthy", "service": "telegram-affiliate-bot"}, 200
+    
+    @app.route('/')
+    def home():
+        return {"message": "Telegram Affiliate Bot is running!", "status": "active"}, 200
+    
+    # Run on the port Render provides
+    port = int(os.environ.get('PORT', 10000))
+    app.run(host='0.0.0.0', port=port, debug=False)
+
+# Add this line in your main() function, before bot.run():
+# threading.Thread(target=start_health_server, daemon=True).start()
